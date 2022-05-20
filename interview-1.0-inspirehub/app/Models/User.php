@@ -123,6 +123,20 @@ class User extends Authenticatable implements MustVerifyEmail
          return $this->roles->map->abilities->flatten()->pluck('name')->values()->unique();
        }
 
+         /**
+       * Assign a new Darasa to the Student
+       *
+       * @param mixed $role
+       */
+
+     public function assignDarasa($darasa)
+     {
+       if (is_string($darasa))
+        {
+         $role=Darasa::whereName($darasa)->firstOrFail();
+       }
+       $this->darasas()->sync($darasa,false);
+     }
 
       /**
      * Get the prunable model query.

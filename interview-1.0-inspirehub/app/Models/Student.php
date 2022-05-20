@@ -8,7 +8,6 @@ class Student extends User
 {
     use HasFactory;
 
-
         /**
       * Ability May have Many Roles
       *
@@ -19,20 +18,5 @@ class Student extends User
       {
         return $this->belongsToMany(Darasa::class);
       }
-
-           /**
-       * Assign a new Darasa to the Student
-       *
-       * @param mixed $role
-       */
-
-     public function assignDarasa($darasa)
-     {
-       if (is_string($darasa))
-        {
-         $role=Darasa::whereName($darasa)->firstOrFail();
-       }
-       $this->darasas()->sync($darasa,false);
-     }
 
 }
