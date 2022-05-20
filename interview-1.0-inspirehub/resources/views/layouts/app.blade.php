@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+
+        <title>{{ config('app.name', 'Laravel') }}</title>
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+
+        <!-- Styles -->
+        <link rel="stylesheet" href="{{ asset('css/eleso.css') }}">
+        <link rel="stylesheet" href="{{ asset('eleso-fonts/eleso.css') }}">
+
+        <!-- Scripts -->
+        <script src="{{ asset('js/app.js') }}" defer></script>
+    </head>
+    <body class="font-sans antialiased">
+        <div class="min-h-screen bg-gray-100">
+            @include('layouts.navigation')
+
+            @include('layouts.sidebar')
+
+            <!-- Page Content -->
+            <main>
+                {{ $slot }}
+            </main>
+        </div>
+
+        <div>
+
+            <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
+            
+            <script src="{{ asset('js/upload-adapter.js') }}"></script>
+            <script>
+                  ClassicEditor
+                    .create(document.querySelector('#editor'))
+                    .catch(error => {
+                        console.error('Oops, something went wrong!');
+                        console.warn("Build id: {{ config('app.name')}}");
+                        console.log(error);
+                    });
+                    </script>
+            </div>
+    </body>
+</html>
