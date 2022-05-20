@@ -18,4 +18,16 @@ class Darasa extends Model
         'name',
         'description',
     ];
+
+
+      /**
+      * A Darasa has have many students
+      *
+      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+      */
+
+      public function students()
+      {
+        return $this->belongsToMany(Student::class)->withTimestamps();
+      }
 }
