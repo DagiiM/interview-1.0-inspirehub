@@ -168,7 +168,7 @@ main{
     }
     main{
         max-width: calc(var(--max-width)*.98);
-        margin-left: 0;
+        margin-inline: 1%;
         padding-inline: 5px;
     }
     aside{
