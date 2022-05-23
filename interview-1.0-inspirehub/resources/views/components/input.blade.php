@@ -1,3 +1,5 @@
 @props(['disabled' => false])
-
-<input {{ $disabled ? 'disabled' : '' }} {!! $attributes->merge(['class' => 'rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50']) !!}>
+<div class="text-field">
+    <label for="{{ $id }}">{{ $name }}</label>
+    <input {{ $disabled ? 'disabled' : '' }} {!! $attributes->merge(['class' => '']) !!} id="{{ $id }}" name="{{ $id }}" type="{{ $type ?? 'text' }}" placeholder="{{ $placeholder ?? '' }}" required value="{{ $value ?? '' }}" autocomplete="{{ $autocomplete ?? 'off' }}">
+</div>

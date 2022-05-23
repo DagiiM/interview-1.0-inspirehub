@@ -9,6 +9,9 @@ class Darasa extends Model
 {
     use HasFactory;
 
+    const DARASA_OPEN = '1';
+    const DARASA_CLOSED = '0';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -17,6 +20,7 @@ class Darasa extends Model
     protected $fillable = [
         'name',
         'description',
+        'status',
     ];
 
 
@@ -26,8 +30,8 @@ class Darasa extends Model
       * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
       */
 
-      public function students()
+      public function users()
       {
-        return $this->belongsToMany(Student::class)->withTimestamps();
+        return $this->belongsToMany(User::class)->withTimestamps();
       }
 }

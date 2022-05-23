@@ -2,6 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Student\StudentController;
+use App\Http\Controllers\Role\RoleController;
+use App\Http\Controllers\Ability\AbilityController;
+use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Darasa\DarasaController;
+use App\Http\Controllers\Event\EventController;
+use App\Http\Controllers\Darasa\DarasaStudentController;
+use App\Http\Controllers\Email\EmailController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,14 +22,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::resource('events',EventController::class);
+Route::resource('darasas',DarasaController::class);
+Route::resource('darasas.students',DarasaStudentController::class);
+Route::resource('emails',EmailController::class);
+Route::resource('users',UserController::class);
+Route::resource('students',StudentController::class);
+Route::resource('roles',RoleController::class);
+Route::resource('abilities',AbilityController::class);
+
 Route::get('/', function () {
     return view('welcome');
-});
-Route::get('/students/create', function () {
-    return view('home/students/create');
-});
-Route::get('/emails/create', function () {
-    return view('home/emails/create');
 });
 
 Route::get('/dashboard', function () {

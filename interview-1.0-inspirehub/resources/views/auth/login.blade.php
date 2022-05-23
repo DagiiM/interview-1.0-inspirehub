@@ -2,35 +2,37 @@
     <x-auth-card>
         <x-slot name="logo">
             <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                <x-application-logo class="" />
             </a>
         </x-slot>
 
         <!-- Session Status -->
-        <x-auth-session-status class="mb-4" :status="session('status')" />
+        <x-auth-session-status :status="session('status')" />
 
         <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+        <x-auth-validation-errors :errors="$errors" />
 
-        <form method="POST" action="{{ route('login') }}">
+        <form method="POST" action="{{ route('login') }}" class="form" style="margin:1%">
             @csrf
 
             <!-- Email Address -->
-            <div>
-                <x-label for="email" :value="__('Email')" />
-
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
-            </div>
+            <x-input>
+                <x-slot:name>Email</x-slot:name>
+                <x-slot:placeholder>Enter Email</x-slot:placeholder>
+                <x-slot:id>email</x-slot:id>
+                <x-slot:autocomplete>on</x-slot:autocomplete>
+                <x-slot:value>{{ old('email') }}</x-slot:value>
+            </x-input>
 
             <!-- Password -->
-            <div class="mt-4">
-                <x-label for="password" :value="__('Password')" />
-
-                <x-input id="password" class="block mt-1 w-full"
-                                type="password"
-                                name="password"
-                                required autocomplete="current-password" />
-            </div>
+          
+            <x-input>
+                <x-slot:name>Password</x-slot:name>
+                <x-slot:placeholder>Enter Password</x-slot:placeholder>
+                <x-slot:id>password</x-slot:id>
+                <x-slot:autocomplete>current-password</x-slot:autocomplete>
+                <x-slot:value>{{ old('password') }}</x-slot:value>
+            </x-input>
 
             <!-- Remember Me -->
             <div class="block mt-4">
@@ -52,5 +54,6 @@
                 </x-button>
             </div>
         </form>
+
     </x-auth-card>
 </x-guest-layout>

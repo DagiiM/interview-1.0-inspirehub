@@ -10,3 +10,4 @@ Student model extends the User Model
 The student model has access to the class assignment.
 
 Other controllers include Role and Ability They assist in controlling what the Admin can create
+

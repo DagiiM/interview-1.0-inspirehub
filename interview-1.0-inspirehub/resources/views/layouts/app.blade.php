@@ -5,14 +5,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>{{ config('app.name', 'Eleso Ltd') }}</title>
 
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/eleso.css') }}">
-        <link rel="stylesheet" href="{{ asset('eleso-fonts/eleso.css') }}">
+        <link rel="stylesheet" href="{{ asset('eleso-v1.0/eleso.css') }}">
 
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
@@ -43,6 +43,24 @@
                         console.log(error);
                     });
                     </script>
+
+<script>
+    const menu = document.querySelector('.menu-iconx');
+    const aside = document.querySelector('.sidebar');
+    const asideCancel = document.querySelector('.menu-icon-sidebar');
+
+    if(menu){
+         menu.addEventListener('click',()=>{
+              aside.classList.add('show-aside');
+         });
+         asideCancel.addEventListener('click',()=>{
+              aside.classList.remove('show-aside');
+         });
+    }
+</script>
             </div>
+
     </body>
+
+
 </html>

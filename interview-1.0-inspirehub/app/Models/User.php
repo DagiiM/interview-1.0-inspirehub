@@ -26,6 +26,7 @@ class User extends Authenticatable implements MustVerifyEmail
          'firstname',
          'lastname',
          'email',
+         'designation',
          'registration_number',
          'password',
          'verified',
@@ -123,6 +124,18 @@ class User extends Authenticatable implements MustVerifyEmail
          return $this->roles->map->abilities->flatten()->pluck('name')->values()->unique();
        }
 
+        /**
+      * Darasa May have Many Students
+      *
+      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+      */
+
+      public function darasas()
+      {
+        return $this->belongsToMany(Darasa::class);
+      }
+
+
          /**
        * Assign a new Darasa to the Student
        *
@@ -133,7 +146,7 @@ class User extends Authenticatable implements MustVerifyEmail
      {
        if (is_string($darasa))
         {
-         $role=Darasa::whereName($darasa)->firstOrFail();
+         $darasa=Darasa::whereName($darasa)->firstOrFail();
        }
        $this->darasas()->sync($darasa,false);
      }
@@ -147,4 +160,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return static::where('created_at', '<=', now()->addDays(7));
     }
+
+
 }

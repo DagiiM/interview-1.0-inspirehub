@@ -28,6 +28,7 @@ class CreateRolesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name')->unique();
             $table->string('description')->unique();
+            $table->string('priority')->default('Low');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -74,36 +75,43 @@ class CreateRolesTable extends Migration
         $ability1=Ability::create([
           'name'=>'ability-list', //index and show
           'description'=>'Allows Listing of The Resource',
+          'priority'=>'Core',
         ]);
 
         $ability2=Ability::create([
           'name'=>'ability-create', //create and store
           'description'=>'Display Creation form of a Resource',
+          'priority'=>'Core',
         ]);
 
         $ability3=Ability::create([
           'name'=>'ability-edit', //edit and update
           'description'=>'Display Edit form of a Resource',
+          'priority'=>'Core',
         ]);
 
         $ability4=Ability::create([
           'name'=>'ability-delete', //destroy
           'description'=>'Display Delete Buttons and Allow Deletion of a Resource from Database',
+          'priority'=>'Core',
         ]);
 
         $ability7=Ability::create([
           'name'=>'ability-restore', //restore
           'description'=>'Restore Deleted Resource from Database',
+          'priority'=>'Core',
         ]);
 
         $ability5=Ability::create([
           'name'=>'ability-edit-user', //edit-user profile
           'description'=>'Allow One User to edit Other User Profile',
+          'priority'=>'Core',
         ]);
 
         $ability6=Ability::create([
           'name'=>'executive-user', //edit-user profile
           'description'=>'Enable Display of Executive Members.',
+          'priority'=>'Core',
         ]);
 
         $admin=Role::create([

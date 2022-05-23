@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers\Student;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\WebController;
 use App\Models\Darasa;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
-class StudentController extends Controller
+class StudentController extends WebController
 {
     public function __construct()
     {
-      parent::__construct();
-      $this->middleware('can:ability-list,user')->only('index');
-      $this->middleware('can:ability-create-user,user')->only('create','store');
-      $this->middleware('can:ability-restore,ability')->only('restore');
+        $this->middleware('auth');
+        $this->middleware('can:ability-list,student')->only('index');
+        $this->middleware('can:ability-create,student')->only('create','store');
+        $this->middleware('can:ability-restore,student')->only('restore');
+        $this->middleware('can:ability-delete,student')->only('destroy');
     }
 
     /**
@@ -24,7 +26,9 @@ class StudentController extends Controller
      */
     public function index()
     {
-        //
+        $students = User::where('designation','student')->get()->values();
+
+        return  $this->showAll('home.students.index',$students);
     }
 
     /**
@@ -34,8 +38,8 @@ class StudentController extends Controller
      */
     public function create()
     {
-        $darasa = Darasa :: all()->get(['name']);
-        
+        $darasa = Darasa :: all()->pluck('name')->unique()->values();
+
         return view('home.students.create',['darasa'=>$darasa]);
     }
 
@@ -43,55 +47,31 @@ class StudentController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'firstname' => ['required', 'string', 'max:255'],
+            'lastname' => ['required', 'string', 'max:255'],
+            'registration_number' => ['required','string', 'max:20'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'darasa' => ['required'],
+        ];
+
+        $this->validate($request,$rules);
+
+        $data = $request->only(['firstname','lastname','email','registration_number','password','password_confirmation','darasa']);
+
+        $data['designation'] = 'student';
+
+        $data['password'] =  Hash::make($request->registration_number);
+
+        $user = User::create($data);
+
+        $user->assignDarasa($data['darasa']);
+
+        return $this->showOne('home.users.show',$user);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function show(User $user)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(User $user)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, User $user)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(User $user)
-    {
-        //
-    }
 }

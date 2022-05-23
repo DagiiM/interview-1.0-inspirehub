@@ -1,12 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Role;
 
+use App\Http\Controllers\WebController;
 use App\Models\Role;
 use Illuminate\Http\Request;
 
-class RoleController extends Controller
+class RoleController extends WebController
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('can:ability-list,role')->only('index');
+        $this->middleware('can:ability-create,role')->only('create','store');
+        $this->middleware('can:ability-restore,role')->only('restore');
+        $this->middleware('can:ability-delete,role')->only('destroy');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +23,8 @@ class RoleController extends Controller
      */
     public function index()
     {
-        //
+        $roles = Role::all();
+        return  $this->showAll('home.roles.index',$roles);
     }
 
     /**
@@ -24,7 +34,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        return view('home.roles.create');
     }
 
     /**
@@ -46,7 +56,7 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
-        //
+        return $this->showOne('home.roles.show',$role);
     }
 
     /**
@@ -57,7 +67,7 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        //
+        return $this->showOne('home.roles.edit',$role);
     }
 
     /**
@@ -69,7 +79,7 @@ class RoleController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-        //
+        return $this->showOne('home.roles.show',$role);
     }
 
     /**
@@ -80,6 +90,6 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        //
+        return $this->showOne('home.roles.show',$role);
     }
 }

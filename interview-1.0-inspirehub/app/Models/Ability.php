@@ -19,6 +19,7 @@ class Ability extends Model
      protected $fillable = [
          'name',
          'description',
+         'priority',
      ];
 
      protected $dates = ['deleted_at'];

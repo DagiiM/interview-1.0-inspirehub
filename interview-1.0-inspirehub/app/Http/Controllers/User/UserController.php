@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\WebController;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class UserController extends WebController
 {
     public function __construct()
     {
-      parent::__construct();
-      $this->middleware('auth')->except('create','mobileChecker','emailChecker','store');
-      $this->middleware('can:ability-list,user')->only('index');
-      $this->middleware('can:ability-create-user,user')->only('create','store');
-      $this->middleware('can:ability-restore,ability')->only('restore');
+        $this->middleware('auth')->except('create','store');
+        $this->middleware('can:ability-list,user')->only('index');
+        $this->middleware('can:ability-create-user,user')->only('create','store');
+        $this->middleware('can:ability-restore,user')->only('restore');
+        $this->middleware('can:ability-delete,user')->only('destroy');
     }
 
     /**
@@ -24,7 +24,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::all();
+
+        return $this->showAll('home.users.index',$users);
     }
 
     /**
@@ -48,7 +50,7 @@ class UserController extends Controller
         //
     }
 
-    /**
+     /**
      * Display the specified resource.
      *
      * @param  \App\Models\User  $user
@@ -56,7 +58,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        return $this->showOne('home.users.show',$user);
     }
 
     /**
@@ -67,7 +69,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return $this->showOne('home.users.edit',$user);
     }
 
     /**
@@ -90,6 +92,21 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+
+        return $this->showOne('home.users.show',$user);
+    }
+
+          /**
+     * Restore the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function restore(User $user)
+    {
+       $user = User::withTrashed()->restore();
+
+       return $this->showOne('home.users.show',$user);    
     }
 }

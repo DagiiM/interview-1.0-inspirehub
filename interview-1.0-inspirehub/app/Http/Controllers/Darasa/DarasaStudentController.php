@@ -1,22 +1,32 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Darasa;
 
+use App\Http\Controllers\WebController;
+use App\Models\Student;
 use App\Models\Darasa;
 use Illuminate\Http\Request;
 
-class DarasaController extends Controller
+class DarasaStudentController extends WebController
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('can:ability-list,user')->only('index');
+        $this->middleware('can:ability-create,user')->only('create','store');
+        $this->middleware('can:ability-restore,ability')->only('restore');
+    }
+    
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Darasa $darasa)
     {
-        $darasa = Darasa::all();
+        $students = $darasa->users()->get()->unique()->values();
 
-        return view('home.darasa.index');
+        return $this->showAll('home.darasas.students.index',$students);
     }
 
     /**
@@ -43,10 +53,10 @@ class DarasaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Darasa  $darasa
+     * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function show(Darasa $darasa)
+    public function show(Student $student)
     {
         //
     }
@@ -54,10 +64,10 @@ class DarasaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Darasa  $darasa
+     * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function edit(Darasa $darasa)
+    public function edit(Student $student)
     {
         //
     }
@@ -66,10 +76,10 @@ class DarasaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Darasa  $darasa
+     * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Darasa $darasa)
+    public function update(Request $request, Student $student)
     {
         //
     }
@@ -77,10 +87,10 @@ class DarasaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Darasa  $darasa
+     * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Darasa $darasa)
+    public function destroy(Student $student)
     {
         //
     }

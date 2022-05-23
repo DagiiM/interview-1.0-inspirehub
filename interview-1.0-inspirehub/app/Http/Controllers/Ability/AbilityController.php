@@ -1,22 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Ability;
 
+use App\Http\Controllers\WebController;
 use App\Models\Ability;
 use Illuminate\Http\Request;
 
-class AbilityController extends Controller
+class AbilityController extends WebController
 {
     public function __construct()
     {
-      parent::__construct();
-      $this->middleware('can:ability-list,ability')->only('index','show');
-      $this->middleware('can:ability-create,ability')->only('create','store');
-      $this->middleware('can:ability-edit,ability')->only('edit','update');
-      $this->middleware('can:ability-delete,ability')->only('destroy');
-      $this->middleware('can:ability-restore,ability')->only('restore');
+        $this->middleware('auth');
+        $this->middleware('can:ability-list,ability')->only('index');
+        $this->middleware('can:ability-create,ability')->only('create','store');
+        $this->middleware('can:ability-restore,ability')->only('restore');
+        $this->middleware('can:ability-delete,ability')->only('destroy');
     }
-    
     /**
      * Display a listing of the resource.
      *
@@ -24,7 +23,9 @@ class AbilityController extends Controller
      */
     public function index()
     {
-        //
+        $abilities = Ability::all();
+
+        return $this->showAll('home.abilities.index',$abilities);
     }
 
     /**
@@ -34,7 +35,7 @@ class AbilityController extends Controller
      */
     public function create()
     {
-        //
+        return view('home.abilities.create');
     }
 
     /**
@@ -45,7 +46,18 @@ class AbilityController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules =[
+            'name'=>['required','max:255','unique:abilities'],
+            'description' => ['required','string','unique:abilities'],
+        ];
+        
+        $this->validate($request,$rules);
+
+        $data = $request->only(['name','description']);
+
+        $ability = Ability::create($data);
+
+        return $this->showOne('home.abilities.show',$ability);
     }
 
     /**
@@ -56,7 +68,7 @@ class AbilityController extends Controller
      */
     public function show(Ability $ability)
     {
-        //
+        return $this->showOne('home.abilities.show',$ability);
     }
 
     /**
@@ -67,7 +79,7 @@ class AbilityController extends Controller
      */
     public function edit(Ability $ability)
     {
-        //
+        return $this->showOne('home.abilities.edit',$ability);
     }
 
     /**
@@ -79,7 +91,7 @@ class AbilityController extends Controller
      */
     public function update(Request $request, Ability $ability)
     {
-        //
+        return $this->showOne('home.abilities.show',$ability);
     }
 
     /**
@@ -90,6 +102,12 @@ class AbilityController extends Controller
      */
     public function destroy(Ability $ability)
     {
-        //
+        if($ability->priority == 'Core'){
+            return back()->with('error','This is a Critical Permission And Cannot be Deleted');
+        }
+
+        $ability->delete();
+
+        return $this->showOne('home.abilities.show',$ability);
     }
 }
