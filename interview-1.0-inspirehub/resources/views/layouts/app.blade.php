@@ -51,7 +51,7 @@
 
     if(menu){
          menu.addEventListener('click',()=>{
-              aside.classList.add('show-aside');
+              aside.classList.toggle('show-aside');
          });
          asideCancel.addEventListener('click',()=>{
               aside.classList.remove('show-aside');
