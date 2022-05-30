@@ -15,7 +15,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('darasas', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->string('name');
             $table->text('description');
             $table->string('status')->default(Darasa::DARASA_OPEN);
@@ -41,6 +41,7 @@ return new class extends Migration
                 ->onDelete('cascade');
       });
 
+      
         $class1=Darasa::create([
             'name'=>'Chemistry Class', //edit and update
             'description'=>'This is the Chemistry Class',

@@ -25,6 +25,33 @@ class Darasa extends Model
 
 
       /**
+      * A Darasa has have many attendances
+      *
+      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+      */
+
+      public function attendances()
+      {
+        return $this->belongsToMany(Attendance::class)->withTimestamps();
+      }
+
+
+      /**
+       * Assign a new Attendance to the Darasa
+       *
+       * @param mixed $attendance
+       */
+
+     public function assignAttendance($attendance)
+     {
+       if (is_string($attendance))
+        {
+         $attendance=Attendance::whereName($attendance)->firstOrFail();
+       }
+       $this->attendances()->sync($attendance,false);
+     }
+
+            /**
       * A Darasa has have many students
       *
       * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

@@ -9,6 +9,8 @@ use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Darasa\DarasaController;
 use App\Http\Controllers\Event\EventController;
 use App\Http\Controllers\Darasa\DarasaStudentController;
+use App\Http\Controllers\Darasa\DarasaAttendanceController;
+use App\Http\Controllers\Darasa\DarasaAttendanceUserController;
 use App\Http\Controllers\Email\EmailController;
 
 /*
@@ -25,6 +27,8 @@ use App\Http\Controllers\Email\EmailController;
 Route::resource('events',EventController::class);
 Route::resource('darasas',DarasaController::class);
 Route::resource('darasas.students',DarasaStudentController::class);
+Route::resource('darasas.attendances',DarasaAttendanceController::class);
+Route::resource('darasas.attendances.students',DarasaAttendanceUserController::class)->only(['create','index','store']);
 Route::resource('emails',EmailController::class);
 Route::resource('users',UserController::class);
 Route::resource('students',StudentController::class);

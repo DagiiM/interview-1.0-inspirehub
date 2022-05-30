@@ -124,7 +124,18 @@ class User extends Authenticatable implements MustVerifyEmail
          return $this->roles->map->abilities->flatten()->pluck('name')->values()->unique();
        }
 
-        /**
+      /**
+      * User May have Many attendances
+      *
+      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+      */
+
+      public function attendances()
+      {
+        return $this->belongsToMany(Attendance::class)->withTimestamps();
+      }
+
+      /**
       * Darasa May have Many Students
       *
       * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -136,7 +147,7 @@ class User extends Authenticatable implements MustVerifyEmail
       }
 
 
-         /**
+      /**
        * Assign a new Darasa to the Student
        *
        * @param mixed $role
@@ -150,6 +161,21 @@ class User extends Authenticatable implements MustVerifyEmail
        }
        $this->darasas()->sync($darasa,false);
      }
+
+           /**
+       * Assign a new Attendance to the Darasa
+       *
+       * @param mixed $attendance
+       */
+
+      public function assignAttendance($attendance)
+      {
+        if (is_string($attendance))
+         {
+          $attendance=Attendance::whereName($attendance)->firstOrFail();
+        }
+        $this->darasas()->sync($attendance,false);
+      }
 
       /**
      * Get the prunable model query.

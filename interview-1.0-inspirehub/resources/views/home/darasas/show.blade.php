@@ -28,6 +28,7 @@
                     </div>
                     
                         <a href="{{ route('darasas.students.index',$data) }}" class="status status--active">Students</a>
+                        <a href="{{ route('darasas.attendances.index',$data) }}" class="status status--active">Attendances</a>
                 <td>
                     <x-action>
                         <x-slot:viewLink>{{route('darasas.show',$data)}}</x-slot:viewLink>
