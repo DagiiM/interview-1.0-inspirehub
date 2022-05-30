@@ -43,15 +43,13 @@
     </x-input>
 
     <div class="text-field">
-        <label for="darasa">Select Name to Add Student To</label>
+        <label for="darasa">Select Class to Add Student To</label>
         <select name="darasa" id="darasa">
             @foreach ($darasa as $class)
                  <option value="{{ $class }}">{{ $class }}</option>
             @endforeach
         </select>
     </div>
-
-    
 
 </x-form>
 <script>

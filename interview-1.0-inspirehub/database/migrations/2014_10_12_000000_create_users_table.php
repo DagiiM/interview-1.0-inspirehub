@@ -31,11 +31,11 @@ class CreateUsersTable extends Migration
         });
 
         $admin = User::create([
-           'firstname' => 'John',
-           'lastname' => 'Mamicha',
-           'email' => 'johnmamicha@gmail.com',
+           'firstname' => 'Admin',
+           'lastname' => '1',
+           'email' => 'admin@ssms.com',
            'gender' => 'Male',
-           'password' => bcrypt('12345678')
+           'password' => bcrypt('admin')
          ]);
 
          $admin = User::create([
@@ -54,12 +54,12 @@ class CreateUsersTable extends Migration
           'firstname' => 'Normal',
           'lastname' => 'User',
           'mobile' => '0799115300',
-          'email' => 'normal@example.gmail.com',
+          'email' => 'normal@ssms.com',
           'gender' => 'Female',
           'bio' => 'Disciplined Test Developer',
           'picture' => 'profile/default_female_image.jpg',
           'cover_image' => 'cu1.jpeg',
-          'password' => bcrypt('12345678')
+          'password' => bcrypt('normal')
         ]);
 
     }

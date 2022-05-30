@@ -102,6 +102,8 @@ class DarasaController extends WebController
      */
     public function destroy(Darasa $darasa)
     {
-        //
+        $darasa->delete();
+
+        return back()->with('success','Deleted Successfully');
     }
 }
