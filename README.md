@@ -11,3 +11,10 @@ The student model has access to the class assignment.
 
 Other controllers include Role and Ability They assist in controlling what the Admin can create
 
+- User Credentials for admin are
+          email: admin@ssms.com
+          password : admin
+- Normal User login credentials are
+         email: normal@ssms.com
+         password: normal
+
