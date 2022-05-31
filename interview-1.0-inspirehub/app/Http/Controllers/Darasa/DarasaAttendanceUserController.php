@@ -30,6 +30,10 @@ class DarasaAttendanceUserController extends Controller
     {
         $students = $darasa->users()->get()->unique()->values();
 
+        $studentsx = $attendance->users()->get()->unique()->values();
+
+        $students = $students->diff($studentsx);
+
         return view('home.darasas.attendances.students.create',['darasa'=>$darasa,'attendance'=>$attendance,'students'=>$students]);
     }
 
@@ -41,8 +45,6 @@ class DarasaAttendanceUserController extends Controller
      */
     public function store(Request $request,Darasa $darasa,Attendance $attendance)
     {
-       
-
         $rules = [
             'present'=>['required'],
         ];
@@ -51,8 +53,10 @@ class DarasaAttendanceUserController extends Controller
 
         $data = $request->only(['present']);
 
-        $attendance->assignUser($data);
+        $attendance->assignUser($data['present']);
 
-        return view('home.darasas.attendances.students.index',$darasa,$attendance);        
+        $students = $attendance->users()->get()->unique()->values();
+
+        return view('home.darasas.attendances.students.index',['darasa'=>$darasa,'attendance'=>$attendance,'students'=>$students]);       
     }
 }
